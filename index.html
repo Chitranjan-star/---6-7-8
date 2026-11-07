@@ -32,6 +32,8 @@ td select{width:100%;border:0;font:inherit;background:transparent;outline:0;colo
 .rco .pg:not(.hasrc){display:none!important}.rco .pg{height:auto;margin-top:8px}.rco .in{height:auto}.rco .cut{margin-top:0!important;border-top:0}.rco .in>*:not(.cut){display:none!important}
 @media print{.up.sg2{border:0}.rco .pg{padding:12mm}}
 @media print{.pk{display:none!important}.up:not(:has(img)){visibility:hidden}.up{border:0!important}.up span{display:none!important}}
+.rco .pw:not(.hasrc){display:none!important}.rco .pw{height:auto!important}
+@media print{.pw{width:auto!important;height:auto!important;margin:0!important}.pg{transform:none!important}}
 </style></head><body>
 <div id="top"><select id="fs" style="padding:8px 10px;border:0;border-radius:6px;font-size:15px;font-weight:700;background:#f4a300;color:#000"><option value="f6">प्रपत्र-6</option><option value="f7">प्रपत्र-7</option><option value="f8">प्रपत्र-8</option></select><button id="ph">📷 फोटो</button><button id="sg">✍ हस्ताक्षर</button><button id="cl">🗑 साफ़</button><input id="plin" data-hi placeholder="📍 गाँव/स्थान" style="width:105px;padding:7px;border:0;border-radius:6px;font-size:14px"><button id="rcb">✂ रसीद</button><button id="pr">🖨 प्रिंट</button></div>
 <div id="f6" class="fm on"></div><div id="f7" class="fm"></div><div id="f8" class="fm"></div>
@@ -102,8 +104,9 @@ H(8,'(नियम 13(3) और 26 देखे)','विद्यमान न�
 `<div class="sm"><b>सुगम्यतात्मक अनुदेश:</b> दिव्यांगजन अधिकार अधिनियम, 2016 और दिव्यांगजन अधिकार नियम, 2017 के उपबंधों के आलोक में, बौद्धिक दिव्यांगता, स्वपरायणता, प्रमस्तिष्क घात और बहुदिव्यांगता आदि की दशा में, दिव्यांगजन के हस्ताक्षर या बाएं हाथ के अंगूठे का निशान या उसके /उसकी विधिक संरक्षक के हस्ताक्षर या उसके बाएं हाथ के अंगूठे का निशान अपेक्षित होगा ।<br>^प्रमुख दस्तावेज़ की स्वप्रमाणित प्रति का प्रस्तुत किया जाना सेवाओं के त्वरित परिदान को सुनिश्चित करेगा।</div>`+RC(8)]);
 
 const $=s=>document.querySelectorAll(s),act=()=>document.querySelector('.fm.on');
-const fit=()=>{const z=Math.min(1,(innerWidth-8)/794);$('.pg').forEach(p=>p.style.zoom=z)};fit();addEventListener('resize',fit);
-const fill=()=>{$('.fm').forEach(f=>{f.style.display='block';f.querySelectorAll('.in').forEach(n=>{const ch=[...n.children],bt=()=>Math.max(...ch.map(c=>c.offsetTop+c.offsetHeight)),lim=()=>n.offsetTop+n.clientHeight-8;ch.forEach(c=>c.style.marginTop='');let s=11.5;n.style.fontSize=s+'px';while(s<15){n.style.fontSize=(s+.2)+'px';if(bt()>lim()){break}s+=.2}n.style.fontSize=s+'px';const ds=ch.filter(c=>c.tagName=='DIV'&&!/\b(hd|cut|up)\b/.test(c.className));const rem=lim()-bt(),g=Math.min(rem/Math.max(ds.length,1),16);if(g>0){ds.forEach(d=>d.style.marginTop=g+'px');const cut=n.querySelector('.cut');if(cut)cut.style.marginTop=Math.max(5,lim()+8-bt()-4)+'px'}})});$('.fm').forEach(f=>f.style.display='')};
+$('.pg').forEach(p=>{const w=document.createElement('div');w.className='pw';if(p.querySelector('.cut'))w.classList.add('hasrc');p.parentNode.insertBefore(w,p);w.appendChild(p)});
+const fit=()=>{const z=Math.min(1,(innerWidth-8)/794);$('.pw').forEach(w=>{const p=w.firstChild;p.style.zoom='';p.style.margin='0';p.style.transformOrigin='0 0';p.style.transform=z<1?'scale('+z+')':'none';w.style.cssText='width:'+794*z+'px;height:'+1123*z+'px;margin:8px auto'})};fit();addEventListener('resize',fit);
+const fill=()=>{$('.fm').forEach(f=>{f.style.display='block';f.querySelectorAll('.in').forEach(n=>{const ch=[...n.children],bt=()=>Math.max(...ch.map(c=>c.offsetTop+c.offsetHeight)),lim=()=>n.offsetTop+n.clientHeight-8;ch.forEach(c=>c.style.marginTop='');let s=11.5;n.style.fontSize=s+'px';while(s<15){n.style.fontSize=(s+.2)+'px';if(bt()>lim()){break}s+=.2}n.style.fontSize=s+'px';const ds=ch.filter(c=>c.tagName=='DIV'&&!/\b(hd|cut|up)\b/.test(c.className));const rem=lim()-bt(),g=Math.min(rem/Math.max(ds.length,1),16);if(g>0){ds.forEach(d=>d.style.marginTop=g+'px');const cut=n.querySelector('.cut');if(cut)cut.style.marginTop=Math.max(5,lim()+8-bt()-4)+'px'}let z=0;while(n.scrollHeight>n.clientHeight+1&&z++<25){ch.forEach(c=>c.style.marginTop='');s-=.3;n.style.fontSize=s+'px'}})});$('.fm').forEach(f=>f.style.display='');fit()};
 fill();document.fonts&&document.fonts.ready.then(fill);
 fs.onchange=()=>{$('.fm').forEach(p=>p.classList.toggle('on',p.id===fs.value));scrollTo(0,0)};
 pr.onclick=()=>print();
@@ -182,5 +185,11 @@ sp.after(bt);bt.after(ed);const ip=ed.querySelector('input');
 bt.onclick=()=>{const o=ed.style.display=='none';ed.style.display=o?'block':'none';if(o){ip.value=rd(grp(fm,keys));ip.focus()}};
 ip.addEventListener('input',()=>{const v=TH(ip.value).replace(/\s+/g,' ').trim(),sps=keys.map(x=>fm.querySelector('[data-k="'+x+'"]'));if(!v){sps.forEach(x=>delete x.dataset.m)}else{sps.forEach(x=>x.dataset.m=1);wr(grp(fm,keys),v)}sync(fm)})});
 cl.addEventListener('click',()=>setTimeout(()=>{$('.bs[data-k^=h]').forEach(x=>delete x.dataset.m);$('.hed input').forEach(i=>i.value='')},60));
+
+const SA=q=>[...document.querySelectorAll(q)];
+const PREP=()=>{SA('.pw').forEach(w=>{w.style.width='auto';w.style.height='auto';w.style.margin='0'});SA('.pg').forEach(p=>p.style.transform='none');SA('.pk').forEach(e=>{e.dataset.pd=e.style.display||'-';e.style.setProperty('display','none','important')});
+SA('.up').forEach(e=>{if(e.querySelector('img')){e.style.setProperty('border','0','important')}else if(e.classList.contains('ph')){e.dataset.pp=1;e.style.setProperty('border','1px solid #000','important');e.style.setProperty('background','#fff','important');const t=e.querySelector('span');if(t)t.style.setProperty('display','block','important')}else{e.dataset.pd=e.style.display||'-';e.style.setProperty('display','none','important')}})};
+const UNPREP=()=>{fit();SA('[data-pd]').forEach(e=>{e.style.removeProperty('display');if(e.dataset.pd!='-')e.style.display=e.dataset.pd;delete e.dataset.pd});SA('.up').forEach(e=>{e.style.removeProperty('border');e.style.removeProperty('background');if(e.dataset.pp){const t=e.querySelector('span');if(t)t.style.removeProperty('display');delete e.dataset.pp}})};
+addEventListener('beforeprint',PREP);addEventListener('afterprint',UNPREP);
 fill();
 </script></body></html>
